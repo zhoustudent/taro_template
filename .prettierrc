@@ -1,0 +1,16 @@
+{
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "parser": "babel-ts",
+  "overrides": [
+    {
+      "files": "*.{css,sass,scss,less}",
+      "options": {
+        "parser": "scss",
+        "tabWidth": 2
+      }
+    }
+  ]
+}
