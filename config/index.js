@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import mocks from './mock';
 
 const config = {
-  projectName: 'douhot_mini_app',
+  projectName: 'xiaoqianke',
   date: '2021-7-21',
   designWidth: 750,
   deviceRatio: {
@@ -16,6 +16,7 @@ const config = {
     '@/utils': resolve(__dirname, '../src/utils'),
     '@/models': resolve(__dirname, '../src/models'),
     '@/services': resolve(__dirname, '../src/services'),
+    '@/components': resolve(__dirname, '../src/components'),
     '~@': resolve(__dirname, '../src'),
   },
   plugins: [

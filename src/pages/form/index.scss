@@ -1,0 +1,7 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  .at-tabs-pane {
+    height: calc(100vh - 140px);
+  }
+}

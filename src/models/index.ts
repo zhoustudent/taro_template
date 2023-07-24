@@ -1,3 +1,4 @@
 import test from '@/models/test';
+import global from '@/models/global';
 
-export default [test];
+export default [global, test];

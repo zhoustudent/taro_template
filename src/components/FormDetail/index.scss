@@ -1,0 +1,81 @@
+
+
+.visit-body {
+  height: 100%;
+    display: block;
+  .visit-form {
+    padding: 20px;
+    font-size: 28px;
+    overflow: auto;
+    height: 100%;
+    display: block;
+    .at-input__title {
+      width: 80px;
+    }
+  
+    .at-form__item {
+      margin-bottom: 20px;
+    }
+  
+    .at-input {
+      margin-left: 0;
+      padding: 20px;
+    }
+  
+    .at-radio__title {
+      margin-right: 10px;
+    }
+  
+    .at-input__title {
+      font-size: 28px;
+      width: 170px;
+      
+    }
+  
+    .at-input__input {
+      text-align: right;
+    }
+    .radio {
+      padding: 20px;
+      border-bottom: 0.5px solid rgb(214, 228, 239);
+      
+      .radio-label {
+        margin-right: 40px;
+      }
+  
+      .radio-label-text {
+        margin-right: 40px;
+      }
+    }
+  
+    .at-list__item .item-content__info-title {
+      font-size: 28px;
+    }
+  
+    .at-list__item .item-extra__info {
+      color: #000
+    }
+  
+    .position {
+      position: relative;
+      .at-input__input {
+        padding-right: 50px;
+      } 
+      .icon {
+        position: absolute;
+        right: 20px;
+        top: 25%
+      }
+    }
+  
+    .photo {
+      padding: 20px;
+      display: flex;
+      .radio-label-text {
+        margin-right: 40px;
+        width: 170px;
+      }
+    }
+  
+  }
+}

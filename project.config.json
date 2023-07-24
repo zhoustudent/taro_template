@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "douhot_mini_app",
-  "description": "抖音热点宝小程序端",
-  "appid": "touristappid",
+  "projectname": "销签通",
+  "description": "销签通",
+  "appid": "wx422b8da2f7be52bc",
   "setting": {
     "urlCheck": true,
     "es6": false,
