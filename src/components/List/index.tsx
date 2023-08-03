@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useCallback, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import Taro from '@tarojs/taro';
-import { debounce } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { Picker, View } from '@tarojs/components';
 import { getUserList, getVisitListById } from '@/services/index';
 
@@ -20,8 +20,8 @@ const List = memo((props: any) => {
   const [userList, setUserList] = useState([]);
   const [curUserIndex, setCurUserIndex] = useState('');
   const [listData, setListData] = useState<any>([]);
-  const [startTime, setStartTime] = useState<any>(dayjs().subtract(7, 'day').format('YYYY-MM-DD'));
-  const [endTime, setEndTime] = useState<any>(dayjs().format('YYYY-MM-DD'));
+  const [startTime, setStartTime] = useState<any>();
+  const [endTime, setEndTime] = useState<any>();
   const [curListData, setCurListData] = useState<any>([]);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const List = memo((props: any) => {
         })
       );
     }
-  }, [listData, startTime, endTime]);
+  }, [listData, startTime, endTime, tab]);
 
   const debounceRef = useRef<any>(null);
   const getUserListFun = useCallback(async () => {
@@ -78,13 +78,13 @@ const List = memo((props: any) => {
   }, []);
 
   const onStartTimeChange = useCallback((value) => {
-    console.log(2323, value);
     setStartTime(value.detail.value);
+    Taro.setStorageSync('startTime', value.detail.value);
   }, []);
 
   const onEndTimeChange = useCallback((value) => {
-    console.log(2323, value);
     setEndTime(value.detail.value);
+    Taro.setStorageSync('endTime', value.detail.value);
   }, []);
 
   const getListData = useCallback(
@@ -97,9 +97,9 @@ const List = memo((props: any) => {
         if (tab === '2') {
           setListData(
             resData.data.data
-              .sort((a, b) => {
-                return Number(b.SubmitTime) - Number(a.SubmitTime);
-              })
+              // .sort((a, b) => {
+              //   return Number(b.SubmitTime) - Number(a.SubmitTime);
+              // })
               .filter((item) => {
                 return item.Status === '0';
               })
@@ -127,6 +127,22 @@ const List = memo((props: any) => {
     }
   }, [getListData, curUserIndex, userList]);
 
+  useEffect(() => {
+    var startValue = Taro.getStorageSync('startTime');
+    var endValue = Taro.getStorageSync('endTime');
+    if (startValue) {
+      setStartTime(startValue);
+    } else {
+      setStartTime(dayjs().subtract(7, 'day').format('YYYY-MM-DD'));
+    }
+
+    if (endValue) {
+      setEndTime(endValue);
+    } else {
+      setEndTime(dayjs().format('YYYY-MM-DD'));
+    }
+  }, []);
+
   const showDetail = useCallback(
     (data) => {
       dispatch({
@@ -139,35 +155,36 @@ const List = memo((props: any) => {
     },
     [tab, dispatch]
   );
-  console.log(3434, tab);
+  console.log(3434, tab, curListData);
   return (
     <View className="list-body">
-      {tab !== '2' && (
-        <View>
-          <Picker mode="date" onChange={onStartTimeChange} value={startTime}>
-            <AtList>
-              <AtListItem title="提交起始时间" extraText={startTime} />
-            </AtList>
-          </Picker>
-          <Picker mode="date" onChange={onEndTimeChange} value={endTime}>
-            <AtList>
-              <AtListItem title="提交结束时间" extraText={endTime} />
-            </AtList>
-          </Picker>
-        </View>
-      )}
+      {/* {tab !== '2' && ( */}
+      <View>
+        <Picker mode="date" onChange={onStartTimeChange} value={startTime}>
+          <AtList>
+            <AtListItem title="提交起始时间" extraText={startTime} />
+          </AtList>
+        </Picker>
+        <Picker mode="date" onChange={onEndTimeChange} value={endTime}>
+          <AtList>
+            <AtListItem title="提交结束时间" extraText={endTime} />
+          </AtList>
+        </Picker>
+      </View>
+      {/* )} */}
 
       {/* style={{ height: `calc(100vh - ${44 + (tab === '2' ? 44 : 0)}px)`, overflow: 'auto' }} */}
 
       {(curListData || []).length > 0 ? (
         <View
-          style={{ height: `calc(100vh - ${44 + (tab !== '2' ? 88 : 0)}px)`, overflow: 'auto' }}
+          style={{ height: `calc(100vh - ${44 + 88}px)`, overflow: 'auto' }}
+          // style={{ height: `calc(100vh - ${44 + (tab !== '2' ? 88 : 0)}px)`, overflow: 'auto' }}
         >
           <AtList>
             {curListData.map((item, i) => {
               return (
                 <AtListItem
-                  key={i}
+                  key={item.Id}
                   title={`${item.username ? `${item.username}-` : ''}${item.MedicalName}`}
                   note={`提交日期：${dayjs(Number(item.SubmitTime) * 1000).format('YYYY-MM-DD')} ${
                     item.Status === '1' ? '审核通过' : item.Status === '2' ? '审核驳回' : '待审核'
